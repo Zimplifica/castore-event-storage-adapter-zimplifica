@@ -1,5 +1,5 @@
 {
-  "name": "@castore/event-storage-adapter-zimplifica",
+  "name": "event-storage-adapter-zimplifica",
   "version": "0.0.1",
   "publishConfig": {
     "access": "public"
@@ -28,7 +28,6 @@
     "watch": "rm -rf dist && concurrently 'yarn:package-* --watch'"
   },
   "dependencies": {
-    "@aws-sdk/util-dynamodb": "^3.319.0",
     "axios": "^1.6.2"
   },
   "devDependencies": {
