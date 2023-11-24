@@ -1,31 +1,11 @@
 /* eslint-disable max-lines */
 
 import type {
-  Aggregate,
-  EventDetail,
   EventStorageAdapter,
 } from '@castore/core';
 import { GroupedEvent } from '@castore/core';
 import axios from 'axios';
 
-
-const prefixAggregateId = (eventStoreId: string, aggregateId: string): string =>
-  `${eventStoreId}#${aggregateId}`;
-
-const unprefixAggregateId = (
-  eventStoreId: string,
-  aggregateId: string,
-): string =>
-  aggregateId.startsWith(`${eventStoreId}#`)
-    ? aggregateId.slice(eventStoreId.length + 1)
-    : aggregateId;
-
-type DynamoDBSingleTableGroupedEvent<
-  EVENT_DETAILS extends EventDetail = EventDetail,
-  AGGREGATE extends Aggregate = Aggregate,
-> = GroupedEvent<EVENT_DETAILS, AGGREGATE> & {
-  eventStorageAdapter: ZimplificaEventStorageAdapter;
-};
 
 export class ZimplificaEventStorageAdapter
   implements EventStorageAdapter
