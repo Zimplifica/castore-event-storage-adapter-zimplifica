@@ -25,7 +25,8 @@
     "test-type": "tsc --noEmit --emitDeclarationOnly false",
     "test-unit": "yarn vitest run --passWithNoTests",
     "transpile": "babel src --extensions .ts --quiet",
-    "watch": "rm -rf dist && concurrently 'yarn:package-* --watch'"
+    "watch": "rm -rf dist && concurrently 'yarn:package-* --watch'",
+    "postinstall": "tsc --outDir ./build"
   },
   "dependencies": {
     "axios": "^1.6.2",
