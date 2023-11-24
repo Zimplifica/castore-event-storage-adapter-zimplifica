@@ -28,7 +28,9 @@
     "watch": "rm -rf dist && concurrently 'yarn:package-* --watch'"
   },
   "dependencies": {
-    "axios": "^1.6.2"
+    "axios": "^1.6.2",
+    "@aws-sdk/util-dynamodb": "^3.319.0",
+    "@aws-sdk/client-dynamodb": "^3.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
