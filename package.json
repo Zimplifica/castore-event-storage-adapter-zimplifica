@@ -25,7 +25,8 @@
     "test-type": "tsc --noEmit --emitDeclarationOnly false",
     "test-unit": "yarn vitest run --passWithNoTests",
     "transpile": "babel src --extensions .ts --quiet",
-    "watch": "rm -rf dist && concurrently 'yarn:package-* --watch'"
+    "watch": "rm -rf dist && concurrently 'yarn:package-* --watch'",
+    "prepare": "yarn build"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.0.0",
