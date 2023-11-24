@@ -26,8 +26,9 @@
     "test-unit": "yarn vitest run --passWithNoTests",
     "transpile": "babel src --extensions .ts --quiet",
     "watch": "rm -rf dist && concurrently 'yarn:package-* --watch'",
-    "tsc": "tsc",
-    "postinstall": "yarn tsc"
+    "tsc": "./node_modules/typescript/bin/tsc",
+    "build": "tsc",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "axios": "^1.6.2",
