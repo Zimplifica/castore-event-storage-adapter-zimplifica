@@ -25,14 +25,12 @@
     "test-type": "tsc --noEmit --emitDeclarationOnly false",
     "test-unit": "yarn vitest run --passWithNoTests",
     "transpile": "babel src --extensions .ts --quiet",
-    "watch": "rm -rf dist && concurrently 'yarn:package-* --watch'",
-    "postinstall": "tsc"
+    "watch": "rm -rf dist && concurrently 'yarn:package-* --watch'"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.0.0",
     "@aws-sdk/util-dynamodb": "^3.319.0",
-    "axios": "^1.6.2",
-    "typescript": "^5.3.2"
+    "axios": "^1.6.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
@@ -52,6 +50,7 @@
     "lodash.omit": "^4.5.0",
     "mockdate": "^3.0.5",
     "prettier": "^2.6.2",
+    "typescript": "^5.3.2",
     "ts-node": "^10.7.0",
     "tsc-alias": "^1.8.7",
     "vitest": "^0.26.2"

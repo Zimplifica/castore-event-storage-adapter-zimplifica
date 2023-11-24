@@ -6,6 +6,25 @@
     "outDir": "./dist/types",
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "target": "es2019",
+    "types": ["node", "vitest/globals"],
+    "lib": ["es2020"],
+    "removeComments": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "declaration": true,
+    "declarationMap": true,
+    "noUncheckedIndexedAccess": true,
+    "paths": {
+      "~/*": ["*"]
+    }
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
   },
   "exclude": ["./dist"],
   "include": ["./**/*.ts"]
