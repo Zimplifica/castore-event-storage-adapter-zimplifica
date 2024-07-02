@@ -4,7 +4,7 @@ import type {
   EventStorageAdapter,
 } from '@castore/core';
 import { GroupedEvent } from '@castore/core';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 
 export class ZimplificaEventStorageAdapter
@@ -46,15 +46,49 @@ export class ZimplificaEventStorageAdapter
           }
         }
       }).then(({ data }) => data)
+      .catch((error: Error | AxiosError) => {
+        if (axios.isAxiosError(error))  {
+          const errorStatus = error.response?.status;
+          const errorData = error.response?.data;
+          console.error('error cought getting events', {
+            errorStatus,
+            errorData
+          });
+        } else {
+          console.error('error cought getting events', {
+            errorStatus: 500,
+            errorData: {}
+          })
+        }
+
+        throw new Error('Fail to get events');
+      })
     };
 
-  
     this.pushEvent = async (eventWithOptTimestamp, options) => {
      
       return axios.post(`${this.endpointUrl}/castore/pushEvent`, {
         eventDetail: eventWithOptTimestamp,
         options
-      }).then(({ data }) => data)
+      })
+      .then(({ data }) => data)
+      .catch((error: Error | AxiosError) => {
+        if (axios.isAxiosError(error))  {
+          const errorStatus = error.response?.status;
+          const errorData = error.response?.data;
+          console.error('error cought pushing event', {
+            errorStatus,
+            errorData
+          });
+        } else {
+          console.error('error cought pushing event', {
+            errorStatus: 500,
+            errorData: {}
+          })
+        }
+
+        throw new Error('Fail to push event');
+      });
     };
 
     /**
@@ -65,6 +99,23 @@ export class ZimplificaEventStorageAdapter
         options,
         groupedEvents: groupedEventsInput
       }).then(({ data }) => data)
+      .catch((error: Error | AxiosError) => {
+        if (axios.isAxiosError(error))  {
+          const errorStatus = error.response?.status;
+          const errorData = error.response?.data;
+          console.error('error cought pushing event group', {
+            errorStatus,
+            errorData
+          });
+        } else {
+          console.error('error cought pushing event group', {
+            errorStatus: 500,
+            errorData: {}
+          })
+        }
+
+        throw new Error('Fail to push event group');
+      });
     };
 
     this.groupEvent = event =>
@@ -81,6 +132,23 @@ export class ZimplificaEventStorageAdapter
           options: { pageToken: inputPageToken, ...inputOptions }
         }
       }).then(({ data }) => data)
+      .catch((error: Error | AxiosError) => {
+        if (axios.isAxiosError(error))  {
+          const errorStatus = error.response?.status;
+          const errorData = error.response?.data;
+          console.error('error cought listing aggregate IDs', {
+            errorStatus,
+            errorData
+          });
+        } else {
+          console.error('error cought listing aggregate IDs', {
+            errorStatus: 500,
+            errorData: {}
+          })
+        }
+
+        throw new Error('Fail to list aggregate IDs');
+      });
     };
   }
 }
