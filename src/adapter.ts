@@ -4,7 +4,7 @@
 import { EventDetail, GroupedEvent, OptionalTimestamp } from '@castore/core';
 import axios, { AxiosError } from 'axios';
 
-export declare type EventsQueryOptions = {
+export declare type CustomEventsQueryOptions = {
     minVersion?: number;
     maxVersion?: number;
     limit?: number;
@@ -31,8 +31,8 @@ export declare type ListAggregateIdsOutput = {
     }[];
     nextPageToken?: string;
 };
-export interface EventStorageAdapter {
-    getEvents: (aggregateId: string, context: EventStoreContext, options?: EventsQueryOptions) => Promise<{
+export interface CustomEventStorageAdapter {
+    getEvents: (aggregateId: string, context: EventStoreContext, options?: CustomEventsQueryOptions) => Promise<{
         events: EventDetail[];
     }>;
     pushEvent: (eventDetail: OptionalTimestamp<EventDetail>, options: PushEventOptions) => Promise<{
@@ -51,13 +51,13 @@ export interface EventStorageAdapter {
 
 
 export class ZimplificaEventStorageAdapter
-  implements EventStorageAdapter
+  implements CustomEventStorageAdapter
 {
-  getEvents: EventStorageAdapter['getEvents'];
-  pushEvent: EventStorageAdapter['pushEvent'];
-  pushEventGroup: EventStorageAdapter['pushEventGroup'];
-  groupEvent: EventStorageAdapter['groupEvent'];
-  listAggregateIds: EventStorageAdapter['listAggregateIds'];
+  getEvents: CustomEventStorageAdapter['getEvents'];
+  pushEvent: CustomEventStorageAdapter['pushEvent'];
+  pushEventGroup: CustomEventStorageAdapter['pushEventGroup'];
+  groupEvent: CustomEventStorageAdapter['groupEvent'];
+  listAggregateIds: CustomEventStorageAdapter['listAggregateIds'];
 
 
   endpointUrl: string ;
