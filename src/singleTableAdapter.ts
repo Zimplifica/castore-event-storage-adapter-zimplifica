@@ -13,6 +13,7 @@ import {
   import type {
     Aggregate,
     EventDetail,
+    EventStorageAdapter,
     PushEventOptions,
   } from '@castore/core';
   import { GroupedEvent } from '@castore/core';
@@ -32,7 +33,6 @@ import {
     parseAppliedListAggregateIdsOptions,
     ParsedPageToken,
   } from './utils/parseAppliedListAggregateIdsOptions';
-import { CustomEventStorageAdapter } from './adapterInterface';
   
   const prefixAggregateId = (eventStoreId: string, aggregateId: string): string =>
     `${eventStoreId}#${aggregateId}`;
@@ -144,16 +144,16 @@ import { CustomEventStorageAdapter } from './adapterInterface';
   };
   
   export class ZimpleDynamoDBSingleTableEventStorageAdapter
-    implements CustomEventStorageAdapter {
-    getEvents: CustomEventStorageAdapter['getEvents'];
+    implements EventStorageAdapter {
+    getEvents: EventStorageAdapter['getEvents'];
     getPushEventInput: (
       eventDetail: EventDetail,
       options: PushEventOptions,
     ) => PutItemCommandInput;
-    pushEvent: CustomEventStorageAdapter['pushEvent'];
-    pushEventGroup: CustomEventStorageAdapter['pushEventGroup'];
-    groupEvent: CustomEventStorageAdapter['groupEvent'];
-    listAggregateIds: CustomEventStorageAdapter['listAggregateIds'];
+    pushEvent: EventStorageAdapter['pushEvent'];
+    pushEventGroup: EventStorageAdapter['pushEventGroup'];
+    groupEvent: EventStorageAdapter['groupEvent'];
+    listAggregateIds: EventStorageAdapter['listAggregateIds'];
   
     getTableName: () => string;
     tableName: string | (() => string);

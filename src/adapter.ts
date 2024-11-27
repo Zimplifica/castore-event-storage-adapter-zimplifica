@@ -1,19 +1,18 @@
 /* eslint-disable max-lines */
 
 
-import { GroupedEvent } from '@castore/core';
+import { EventStorageAdapter, GroupedEvent } from '@castore/core';
 import axios, { AxiosError } from 'axios';
-import { CustomEventStorageAdapter } from './adapterInterface';
 
 
 export class ZimplificaEventStorageAdapter
-  implements CustomEventStorageAdapter
+  implements EventStorageAdapter
 {
-  getEvents: CustomEventStorageAdapter['getEvents'];
-  pushEvent: CustomEventStorageAdapter['pushEvent'];
-  pushEventGroup: CustomEventStorageAdapter['pushEventGroup'];
-  groupEvent: CustomEventStorageAdapter['groupEvent'];
-  listAggregateIds: CustomEventStorageAdapter['listAggregateIds'];
+  getEvents: EventStorageAdapter['getEvents'];
+  pushEvent: EventStorageAdapter['pushEvent'];
+  pushEventGroup: EventStorageAdapter['pushEventGroup'];
+  groupEvent: EventStorageAdapter['groupEvent'];
+  listAggregateIds: EventStorageAdapter['listAggregateIds'];
 
 
   endpointUrl: string ;
@@ -29,9 +28,9 @@ export class ZimplificaEventStorageAdapter
     this.getEvents = async (
       aggregateId,
       { eventStoreId },
-      { minVersion, maxVersion, reverse, limit, hashed } = {},
+      { minVersion, maxVersion, reverse, limit } = {},
     ) => {
-      const url = hashed ? `${this.endpointUrl}/castore/getEventsNoHashed` : `${this.endpointUrl}/castore/getEvents`;
+      const url = aggregateId.length == 64 ? `${this.endpointUrl}/castore/getEventsNoHashed` : `${this.endpointUrl}/castore/getEvents`;
       return axios.get(url, {
         data: {
           aggregateId,
