@@ -1,10 +1,53 @@
 /* eslint-disable max-lines */
 
-import type {
-  EventStorageAdapter,
-} from '@castore/core';
-import { GroupedEvent } from '@castore/core';
+
+import { EventDetail, GroupedEvent, OptionalTimestamp } from '@castore/core';
 import axios, { AxiosError } from 'axios';
+
+export declare type EventsQueryOptions = {
+    minVersion?: number;
+    maxVersion?: number;
+    limit?: number;
+    reverse?: boolean;
+    hashed?: boolean; 
+};
+export declare type EventStoreContext = {
+    eventStoreId: string;
+};
+export declare type PushEventOptions = EventStoreContext & {
+    force?: boolean;
+};
+export declare type ListAggregateIdsOptions = {
+    limit?: number;
+    pageToken?: string;
+    initialEventAfter?: string;
+    initialEventBefore?: string;
+    reverse?: boolean;
+};
+export declare type ListAggregateIdsOutput = {
+    aggregateIds: {
+        aggregateId: string;
+        initialEventTimestamp: string;
+    }[];
+    nextPageToken?: string;
+};
+export interface EventStorageAdapter {
+    getEvents: (aggregateId: string, context: EventStoreContext, options?: EventsQueryOptions) => Promise<{
+        events: EventDetail[];
+    }>;
+    pushEvent: (eventDetail: OptionalTimestamp<EventDetail>, options: PushEventOptions) => Promise<{
+        event: EventDetail;
+    }>;
+    pushEventGroup: (options: {
+        force?: boolean;
+    }, ...groupedEvents: [GroupedEvent, ...GroupedEvent[]]) => Promise<{
+        eventGroup: {
+            event: EventDetail;
+        }[];
+    }>;
+    groupEvent: (eventDetail: OptionalTimestamp<EventDetail>) => GroupedEvent;
+    listAggregateIds: (context: EventStoreContext, options?: ListAggregateIdsOptions) => Promise<ListAggregateIdsOutput>;
+}
 
 
 export class ZimplificaEventStorageAdapter
@@ -30,9 +73,10 @@ export class ZimplificaEventStorageAdapter
     this.getEvents = async (
       aggregateId,
       { eventStoreId },
-      { minVersion, maxVersion, reverse, limit } = {},
+      { minVersion, maxVersion, reverse, limit, hashed } = {},
     ) => {
-      return axios.get(`${this.endpointUrl}/castore/getEvents`, {
+      const url = hashed ? `${this.endpointUrl}/castore/getEventsNoHashed` : `${this.endpointUrl}/castore/getEvents`;
+      return axios.get(url, {
         data: {
           aggregateId,
           context: {
